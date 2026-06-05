@@ -1,0 +1,1573 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Maestro — Brief de Viabilidad</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --ink: #0f0e0b;
+    --paper: #f5f2ea;
+    --paper2: #ede9df;
+    --accent: #c8420f;
+    --accent2: #1a4f3a;
+    --gold: #b8840a;
+    --muted: #6b6456;
+    --line: rgba(15,14,11,0.12);
+    --card: #ffffff;
+    --font-display: 'Syne', sans-serif;
+    --font-body: 'DM Sans', sans-serif;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--paper);
+    color: var(--ink);
+    font-family: var(--font-body);
+    font-size: 16px;
+    line-height: 1.65;
+    overflow-x: hidden;
+  }
+
+  /* ── NAV ─────────────────────────────────────────── */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 0 40px;
+    height: 60px;
+    background: rgba(245,242,234,0.88);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--line);
+  }
+  .nav-logo {
+    font-family: var(--font-display);
+    font-weight: 800;
+    font-size: 20px;
+    letter-spacing: -0.5px;
+    color: var(--ink);
+    text-decoration: none;
+  }
+  .nav-logo span { color: var(--accent); }
+  .nav-links { display: flex; gap: 28px; list-style: none; }
+  .nav-links a {
+    font-family: var(--font-display);
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--muted);
+    text-decoration: none;
+    letter-spacing: 0.03em;
+    text-transform: uppercase;
+    transition: color .2s;
+  }
+  .nav-links a:hover { color: var(--ink); }
+  .nav-badge {
+    background: var(--accent);
+    color: #fff;
+    font-family: var(--font-display);
+    font-size: 11px;
+    font-weight: 700;
+    padding: 4px 10px;
+    border-radius: 20px;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+  }
+
+  /* ── HERO ────────────────────────────────────────── */
+  .hero {
+    min-height: 100vh;
+    padding: 120px 40px 80px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 60px;
+    align-items: center;
+    max-width: 1200px;
+    margin: 0 auto;
+    position: relative;
+  }
+
+  .hero-eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-family: var(--font-display);
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 24px;
+  }
+  .hero-eyebrow::before {
+    content: '';
+    display: block;
+    width: 24px; height: 2px;
+    background: var(--accent);
+  }
+
+  .hero h1 {
+    font-family: var(--font-display);
+    font-size: clamp(52px, 6vw, 88px);
+    font-weight: 800;
+    line-height: 0.95;
+    letter-spacing: -3px;
+    color: var(--ink);
+    margin-bottom: 32px;
+  }
+  .hero h1 em {
+    font-style: normal;
+    color: var(--accent);
+  }
+
+  .hero-sub {
+    font-size: 18px;
+    color: var(--muted);
+    font-weight: 300;
+    max-width: 480px;
+    margin-bottom: 40px;
+    line-height: 1.7;
+  }
+
+  .hero-cta {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    background: var(--ink);
+    color: var(--paper);
+    font-family: var(--font-display);
+    font-size: 14px;
+    font-weight: 600;
+    padding: 14px 28px;
+    border-radius: 40px;
+    text-decoration: none;
+    letter-spacing: 0.02em;
+    transition: transform .2s, background .2s;
+  }
+  .hero-cta:hover { background: var(--accent); transform: translateY(-2px); }
+  .hero-cta svg { transition: transform .2s; }
+  .hero-cta:hover svg { transform: translateX(4px); }
+
+  .hero-right {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  .kpi-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+  }
+
+  .kpi-card {
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: 16px;
+    padding: 24px 20px;
+    position: relative;
+    overflow: hidden;
+    transition: transform .2s, box-shadow .2s;
+  }
+  .kpi-card:hover { transform: translateY(-3px); box-shadow: 0 12px 32px rgba(0,0,0,0.08); }
+  .kpi-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 3px;
+  }
+  .kpi-card.blue::before { background: #1a4f8a; }
+  .kpi-card.red::before { background: var(--accent); }
+  .kpi-card.green::before { background: var(--accent2); }
+  .kpi-card.gold::before { background: var(--gold); }
+
+  .kpi-label {
+    font-family: var(--font-display);
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 8px;
+  }
+  .kpi-value {
+    font-family: var(--font-display);
+    font-size: 32px;
+    font-weight: 800;
+    letter-spacing: -1.5px;
+    line-height: 1;
+    margin-bottom: 4px;
+  }
+  .kpi-card.blue .kpi-value { color: #1a4f8a; }
+  .kpi-card.red .kpi-value { color: var(--accent); }
+  .kpi-card.green .kpi-value { color: var(--accent2); }
+  .kpi-card.gold .kpi-value { color: var(--gold); }
+  .kpi-sub {
+    font-size: 12px;
+    color: var(--muted);
+    font-weight: 300;
+  }
+
+  .verdict-band {
+    background: var(--ink);
+    color: var(--paper);
+    border-radius: 16px;
+    padding: 20px 24px;
+    font-family: var(--font-display);
+    font-size: 15px;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .verdict-band .dot {
+    width: 10px; height: 10px;
+    border-radius: 50%;
+    background: #4ade80;
+    flex-shrink: 0;
+    animation: pulse 2s ease-in-out infinite;
+  }
+  @keyframes pulse { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:.6;transform:scale(1.3)} }
+
+  /* ── SECTION BASE ────────────────────────────────── */
+  section {
+    padding: 100px 40px;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+  .section-full {
+    max-width: 100%;
+    padding: 0;
+  }
+
+  .section-eyebrow {
+    font-family: var(--font-display);
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 12px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .section-eyebrow::before {
+    content: '';
+    display: block;
+    width: 20px; height: 2px;
+    background: var(--accent);
+  }
+
+  .section-title {
+    font-family: var(--font-display);
+    font-size: clamp(36px, 4vw, 56px);
+    font-weight: 800;
+    letter-spacing: -2px;
+    line-height: 1.0;
+    color: var(--ink);
+    margin-bottom: 48px;
+  }
+
+  /* ── DIVIDER ─────────────────────────────────────── */
+  .divider {
+    border: none;
+    border-top: 1px solid var(--line);
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  /* ── PROBLEM SECTION ──────────────────────────────── */
+  .problem-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 60px;
+    align-items: start;
+  }
+  .problem-stat {
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: 20px;
+    padding: 36px;
+    margin-bottom: 16px;
+  }
+  .problem-stat .big-num {
+    font-family: var(--font-display);
+    font-size: 72px;
+    font-weight: 800;
+    letter-spacing: -4px;
+    line-height: 1;
+    color: var(--accent);
+    margin-bottom: 8px;
+  }
+  .problem-stat p {
+    font-size: 15px;
+    color: var(--muted);
+    font-weight: 300;
+  }
+  .problem-stat .source {
+    font-size: 11px;
+    color: #aaa;
+    margin-top: 8px;
+    font-style: italic;
+  }
+
+  .problem-points { list-style: none; display: flex; flex-direction: column; gap: 16px; }
+  .problem-points li {
+    display: flex;
+    gap: 16px;
+    align-items: flex-start;
+    padding: 20px;
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: 12px;
+  }
+  .problem-points li .icon {
+    width: 36px; height: 36px;
+    border-radius: 8px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 16px;
+    flex-shrink: 0;
+    background: #fef3ee;
+  }
+  .problem-points li strong {
+    display: block;
+    font-family: var(--font-display);
+    font-size: 14px;
+    font-weight: 600;
+    margin-bottom: 4px;
+  }
+  .problem-points li p { font-size: 13px; color: var(--muted); line-height: 1.5; }
+
+  /* ── SOLUTION / UBER MODEL ────────────────────────── */
+  .uber-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    margin-bottom: 48px;
+  }
+  .uber-card {
+    border-radius: 16px;
+    padding: 28px;
+    border: 1px solid transparent;
+  }
+  .uber-card.yes {
+    background: #f0faf5;
+    border-color: #a7d9bc;
+  }
+  .uber-card.no {
+    background: #fef4f2;
+    border-color: #f9c0b0;
+  }
+  .uber-card .card-head {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 16px;
+  }
+  .uber-card .badge {
+    font-family: var(--font-display);
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    padding: 3px 10px;
+    border-radius: 20px;
+  }
+  .uber-card.yes .badge { background: var(--accent2); color: #fff; }
+  .uber-card.no .badge { background: var(--accent); color: #fff; }
+  .uber-card ul { list-style: none; display: flex; flex-direction: column; gap: 8px; }
+  .uber-card ul li {
+    font-size: 14px;
+    color: var(--muted);
+    padding-left: 18px;
+    position: relative;
+  }
+  .uber-card ul li::before {
+    content: '';
+    position: absolute; left: 0; top: 8px;
+    width: 6px; height: 6px;
+    border-radius: 50%;
+  }
+  .uber-card.yes ul li::before { background: var(--accent2); }
+  .uber-card.no ul li::before { background: var(--accent); }
+
+  /* ── FLOW SECTION ─────────────────────────────────── */
+  .flow-bg {
+    background: var(--ink);
+    padding: 100px 40px;
+  }
+  .flow-inner {
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+  .flow-bg .section-eyebrow { color: #f97316; }
+  .flow-bg .section-eyebrow::before { background: #f97316; }
+  .flow-bg .section-title { color: var(--paper); }
+
+  .flow-cols {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2px;
+    margin-bottom: 32px;
+  }
+  .flow-col-head {
+    padding: 14px 20px;
+    font-family: var(--font-display);
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    text-align: center;
+    border-radius: 10px 10px 0 0;
+  }
+  .flow-col-head.blue { background: #1a4f8a; color: #fff; }
+  .flow-col-head.purple { background: #5b3f8a; color: #fff; }
+  .flow-col-head.teal { background: #1a6b5a; color: #fff; }
+
+  .flow-steps {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2px;
+  }
+
+  .flow-step {
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.08);
+    padding: 18px 16px;
+    min-height: 80px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    transition: background .2s;
+  }
+  .flow-step:hover { background: rgba(255,255,255,0.08); }
+  .flow-step .step-num {
+    font-family: var(--font-display);
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    margin-bottom: 4px;
+  }
+  .flow-step.blue .step-num { color: #60a5fa; }
+  .flow-step.purple .step-num { color: #c084fc; }
+  .flow-step.teal .step-num { color: #34d399; }
+  .flow-step.amber .step-num { color: #fbbf24; }
+  .flow-step.red .step-num { color: #f87171; }
+  .flow-step.empty { background: transparent; border-color: transparent; }
+
+  .flow-step .step-title {
+    font-family: var(--font-display);
+    font-size: 13px;
+    font-weight: 600;
+    color: #f5f2ea;
+    margin-bottom: 2px;
+  }
+  .flow-step .step-sub {
+    font-size: 11px;
+    color: rgba(245,242,234,0.5);
+    line-height: 1.4;
+  }
+
+  .flow-legend {
+    display: flex;
+    gap: 24px;
+    margin-top: 28px;
+    flex-wrap: wrap;
+  }
+  .flow-legend-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 12px;
+    color: rgba(245,242,234,0.6);
+  }
+  .flow-legend-dot {
+    width: 10px; height: 10px;
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+
+  /* ── ANTI-DISINTERMEDIATION ────────────────────────── */
+  .defense-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+  }
+  .defense-card {
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: 20px;
+    padding: 32px 28px;
+    position: relative;
+    overflow: hidden;
+    transition: transform .2s, box-shadow .2s;
+  }
+  .defense-card:hover { transform: translateY(-4px); box-shadow: 0 16px 40px rgba(0,0,0,0.08); }
+  .defense-card .card-num {
+    font-family: var(--font-display);
+    font-size: 48px;
+    font-weight: 800;
+    letter-spacing: -3px;
+    color: var(--paper2);
+    line-height: 1;
+    margin-bottom: 16px;
+  }
+  .defense-card h3 {
+    font-family: var(--font-display);
+    font-size: 17px;
+    font-weight: 700;
+    color: var(--ink);
+    margin-bottom: 10px;
+  }
+  .defense-card p {
+    font-size: 13px;
+    color: var(--muted);
+    line-height: 1.6;
+  }
+  .defense-card .tag {
+    display: inline-block;
+    margin-top: 12px;
+    font-size: 11px;
+    font-family: var(--font-display);
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    padding: 3px 10px;
+    border-radius: 20px;
+    background: #f0faf5;
+    color: var(--accent2);
+  }
+
+  /* ── CASOS ANALOGOS ────────────────────────────────── */
+  .cases-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px;
+  }
+  .case-card {
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: 20px;
+    padding: 32px;
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 24px;
+    align-items: start;
+    transition: transform .2s;
+  }
+  .case-card:hover { transform: translateY(-3px); box-shadow: 0 12px 30px rgba(0,0,0,0.07); }
+  .case-logo {
+    width: 52px; height: 52px;
+    border-radius: 14px;
+    display: flex; align-items: center; justify-content: center;
+    font-family: var(--font-display);
+    font-size: 16px;
+    font-weight: 800;
+    color: #fff;
+    flex-shrink: 0;
+  }
+  .case-card:nth-child(1) .case-logo { background: #1a6b5a; }
+  .case-card:nth-child(2) .case-logo { background: #c8420f; }
+  .case-card:nth-child(3) .case-logo { background: #1a4f8a; }
+  .case-card:nth-child(4) .case-logo { background: #b8840a; }
+  .case-market {
+    font-family: var(--font-display);
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 4px;
+  }
+  .case-name {
+    font-family: var(--font-display);
+    font-size: 20px;
+    font-weight: 700;
+    color: var(--ink);
+    margin-bottom: 8px;
+  }
+  .case-desc {
+    font-size: 13px;
+    color: var(--muted);
+    line-height: 1.6;
+    margin-bottom: 12px;
+  }
+  .case-pill {
+    display: inline-block;
+    background: #fef3ee;
+    color: var(--accent);
+    font-family: var(--font-display);
+    font-size: 11px;
+    font-weight: 700;
+    padding: 4px 12px;
+    border-radius: 20px;
+    letter-spacing: 0.04em;
+  }
+
+  /* ── FINANZAS ──────────────────────────────────────── */
+  .fin-bg {
+    background: var(--paper2);
+    padding: 100px 40px;
+  }
+  .fin-inner { max-width: 1200px; margin: 0 auto; }
+
+  .revenue-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 48px;
+    background: var(--card);
+    border-radius: 16px;
+    overflow: hidden;
+    border: 1px solid var(--line);
+  }
+  .revenue-table thead th {
+    font-family: var(--font-display);
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--muted);
+    padding: 16px 20px;
+    text-align: left;
+    border-bottom: 1px solid var(--line);
+    background: var(--paper);
+  }
+  .revenue-table tbody td {
+    padding: 16px 20px;
+    font-size: 14px;
+    border-bottom: 1px solid var(--line);
+    vertical-align: middle;
+  }
+  .revenue-table tbody tr:last-child td { border-bottom: none; }
+  .revenue-table .esc { font-family: var(--font-display); font-weight: 600; }
+  .revenue-table .highlight { background: #f0faf5; font-weight: 600; color: var(--accent2); }
+  .revenue-table .total { font-family: var(--font-display); font-weight: 700; }
+
+  .fin-unit-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+    align-items: start;
+  }
+  .unit-card {
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: 20px;
+    overflow: hidden;
+  }
+  .unit-card-head {
+    background: var(--ink);
+    color: var(--paper);
+    padding: 20px 24px;
+    font-family: var(--font-display);
+    font-size: 15px;
+    font-weight: 700;
+  }
+  .unit-card-head span { color: #9ca3af; font-size: 13px; font-weight: 400; }
+  .unit-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 14px 24px;
+    border-bottom: 1px solid var(--line);
+    font-size: 14px;
+  }
+  .unit-row:last-child { border-bottom: none; }
+  .unit-row .label { color: var(--muted); }
+  .unit-row .amount { font-family: var(--font-display); font-weight: 600; }
+  .unit-row.platform { background: #f0faf5; }
+  .unit-row.platform .label { color: var(--accent2); font-weight: 500; }
+  .unit-row.platform .amount { color: var(--accent2); font-size: 18px; }
+
+  .val-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+  }
+  .val-card {
+    border-radius: 16px;
+    padding: 28px 24px;
+    border: 1px solid transparent;
+    text-align: center;
+  }
+  .val-card.cons { background: #fef4f2; border-color: #f9c0b0; }
+  .val-card.cent { background: #eff6ff; border-color: #bfdbfe; }
+  .val-card.opt { background: #f0faf5; border-color: #a7d9bc; }
+  .val-card .v-label {
+    font-family: var(--font-display);
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    margin-bottom: 12px;
+  }
+  .val-card.cons .v-label { color: var(--accent); }
+  .val-card.cent .v-label { color: #1a4f8a; }
+  .val-card.opt .v-label { color: var(--accent2); }
+  .val-card .v-num {
+    font-family: var(--font-display);
+    font-size: 36px;
+    font-weight: 800;
+    letter-spacing: -2px;
+    line-height: 1;
+    margin-bottom: 6px;
+  }
+  .val-card.cons .v-num { color: var(--accent); }
+  .val-card.cent .v-num { color: #1a4f8a; }
+  .val-card.opt .v-num { color: var(--accent2); }
+  .val-card .v-sub { font-size: 12px; color: var(--muted); }
+
+  /* ── STRENGTHS & RISKS ────────────────────────────── */
+  .sw-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+  }
+  .sw-col h3 {
+    font-family: var(--font-display);
+    font-size: 20px;
+    font-weight: 700;
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .sw-col .sw-badge {
+    font-size: 12px;
+    font-weight: 600;
+    padding: 3px 10px;
+    border-radius: 20px;
+  }
+  .sw-col.str .sw-badge { background: #f0faf5; color: var(--accent2); }
+  .sw-col.risk .sw-badge { background: #fef4f2; color: var(--accent); }
+
+  .sw-item {
+    padding: 20px;
+    border-radius: 14px;
+    border: 1px solid var(--line);
+    margin-bottom: 10px;
+    background: var(--card);
+  }
+  .sw-item .item-title {
+    font-family: var(--font-display);
+    font-size: 14px;
+    font-weight: 600;
+    margin-bottom: 4px;
+  }
+  .sw-col.str .item-title { color: var(--accent2); }
+  .sw-col.risk .item-title { color: var(--accent); }
+  .sw-item .item-body { font-size: 13px; color: var(--muted); line-height: 1.5; }
+  .sw-item .item-mit {
+    margin-top: 8px;
+    font-size: 12px;
+    color: #555;
+    background: #f5f5f0;
+    border-radius: 6px;
+    padding: 6px 10px;
+    font-style: italic;
+  }
+
+  /* ── LAUNCH ───────────────────────────────────────── */
+  .launch-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 48px;
+    align-items: start;
+  }
+  .launch-steps { display: flex; flex-direction: column; gap: 12px; }
+  .launch-step {
+    display: flex;
+    gap: 16px;
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: 14px;
+    padding: 20px;
+    align-items: flex-start;
+    transition: transform .15s;
+  }
+  .launch-step:hover { transform: translateX(4px); }
+  .launch-step-num {
+    width: 32px; height: 32px;
+    border-radius: 50%;
+    background: var(--ink);
+    color: var(--paper);
+    font-family: var(--font-display);
+    font-size: 13px;
+    font-weight: 700;
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+  }
+  .launch-step strong {
+    display: block;
+    font-family: var(--font-display);
+    font-size: 14px;
+    font-weight: 600;
+    margin-bottom: 3px;
+  }
+  .launch-step p { font-size: 13px; color: var(--muted); line-height: 1.5; }
+
+  .payment-table { display: flex; flex-direction: column; gap: 10px; }
+  .payment-row {
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: 14px;
+    padding: 20px;
+  }
+  .payment-row .p-name {
+    font-family: var(--font-display);
+    font-size: 15px;
+    font-weight: 700;
+    color: var(--ink);
+    margin-bottom: 4px;
+  }
+  .payment-row .p-rec {
+    display: inline-block;
+    font-size: 11px;
+    font-family: var(--font-display);
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    padding: 2px 8px;
+    border-radius: 10px;
+    margin-bottom: 8px;
+  }
+  .payment-row.best .p-rec { background: #f0faf5; color: var(--accent2); }
+  .payment-row.good .p-rec { background: #eff6ff; color: #1a4f8a; }
+  .payment-row.ok .p-rec { background: var(--paper2); color: var(--muted); }
+  .payment-row p { font-size: 13px; color: var(--muted); line-height: 1.5; }
+
+  /* ── FOOTER ───────────────────────────────────────── */
+  footer {
+    background: var(--ink);
+    color: var(--paper);
+    padding: 60px 40px 40px;
+    max-width: 100%;
+  }
+  .footer-inner {
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+  .footer-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 48px;
+    gap: 40px;
+    flex-wrap: wrap;
+  }
+  .footer-logo {
+    font-family: var(--font-display);
+    font-size: 32px;
+    font-weight: 800;
+    letter-spacing: -1px;
+    color: var(--paper);
+  }
+  .footer-logo span { color: var(--accent); }
+  .footer-tagline {
+    font-size: 14px;
+    color: rgba(245,242,234,0.5);
+    margin-top: 8px;
+    font-weight: 300;
+  }
+  .footer-verdict {
+    background: rgba(255,255,255,0.05);
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 16px;
+    padding: 24px 32px;
+    max-width: 480px;
+  }
+  .footer-verdict .v-title {
+    font-family: var(--font-display);
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: rgba(245,242,234,0.5);
+    margin-bottom: 12px;
+  }
+  .footer-verdict .v-text {
+    font-size: 16px;
+    font-weight: 300;
+    line-height: 1.6;
+    color: var(--paper);
+  }
+  .footer-verdict .v-text strong {
+    font-weight: 500;
+    color: #4ade80;
+  }
+
+  .footer-bottom {
+    border-top: 1px solid rgba(255,255,255,0.08);
+    padding-top: 24px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 12px;
+    color: rgba(245,242,234,0.35);
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+
+  /* ── ANIMATIONS ───────────────────────────────────── */
+  .fade-in {
+    opacity: 0;
+    transform: translateY(24px);
+    transition: opacity .6s ease, transform .6s ease;
+  }
+  .fade-in.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* ── RESPONSIVE ───────────────────────────────────── */
+  @media (max-width: 900px) {
+    nav { padding: 0 20px; }
+    .nav-links { display: none; }
+    .hero { grid-template-columns: 1fr; padding: 100px 20px 60px; }
+    .hero-right { display: none; }
+    section { padding: 60px 20px; }
+    .problem-grid, .uber-grid, .sw-grid, .launch-grid,
+    .fin-unit-grid, .defense-grid, .cases-grid { grid-template-columns: 1fr; }
+    .flow-bg { padding: 60px 20px; }
+    .flow-cols, .flow-steps { grid-template-columns: 1fr; }
+    .val-grid { grid-template-columns: 1fr; }
+    .fin-bg { padding: 60px 20px; }
+    footer { padding: 40px 20px; }
+    .footer-top { flex-direction: column; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a class="nav-logo" href="#">MAESTRO<span>.</span></a>
+  <ul class="nav-links">
+    <li><a href="#problema">Problema</a></li>
+    <li><a href="#modelo">Modelo</a></li>
+    <li><a href="#flujo">Flujo</a></li>
+    <li><a href="#casos">Casos</a></li>
+    <li><a href="#finanzas">Finanzas</a></li>
+    <li><a href="#lanzamiento">Lanzamiento</a></li>
+  </ul>
+  <span class="nav-badge">Brief v2.0 — Jun 2026</span>
+</nav>
+
+<!-- HERO -->
+<section class="hero fade-in" style="max-width:1200px;">
+  <div>
+    <div class="hero-eyebrow">El Salvador · Marketplace · Construcción</div>
+    <h1>La <em>confianza</em> que faltaba en la construcción.</h1>
+    <p class="hero-sub">Maestro conecta propietarios con contratistas verificados. Retiene el pago, protege a ambas partes, y cobra solo cuando hay acuerdo. Sin intermediación de obras. Sin gestión de materiales. Solo confianza y pagos.</p>
+    <a class="hero-cta" href="#problema">
+      Ver el análisis
+      <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+    </a>
+  </div>
+  <div class="hero-right">
+    <div class="kpi-grid">
+      <div class="kpi-card red">
+        <div class="kpi-label">Proyectos fallidos</div>
+        <div class="kpi-value">~50%</div>
+        <div class="kpi-sub">en construcción informal SV</div>
+      </div>
+      <div class="kpi-card blue">
+        <div class="kpi-label">Remesas 2025</div>
+        <div class="kpi-value">$9.8B</div>
+        <div class="kpi-sub">récord BCR — 24% del PIB</div>
+      </div>
+      <div class="kpi-card green">
+        <div class="kpi-label">Ingreso por proyecto</div>
+        <div class="kpi-value">$715</div>
+        <div class="kpi-sub">comisión plataforma (13%)</div>
+      </div>
+      <div class="kpi-card gold">
+        <div class="kpi-label">Valoración Año 3</div>
+        <div class="kpi-value">$2.8M</div>
+        <div class="kpi-sub">DCF — 25% tasa descuento</div>
+      </div>
+    </div>
+    <div class="verdict-band">
+      <div class="dot"></div>
+      Alta viabilidad · Primer entrante · Construir MVP ya
+    </div>
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- PROBLEMA -->
+<section id="problema">
+  <div class="section-eyebrow fade-in">El Problema</div>
+  <h2 class="section-title fade-in">Un mercado de <br>$720M sin guardianes.</h2>
+  <div class="problem-grid">
+    <div>
+      <div class="problem-stat fade-in">
+        <div class="big-num">70%</div>
+        <p>de los trabajadores salvadoreños opera en el sector informal — incluyendo la gran mayoría de albañiles y maestros de obra.</p>
+        <div class="source">Fuente: Banco Mundial · Dept. Estado EE.UU., Investment Climate Statement El Salvador 2025</div>
+      </div>
+      <div class="problem-stat fade-in" style="transition-delay:.1s">
+        <div class="big-num">37.5%</div>
+        <p>del mercado de construcción es residencial — el segmento de mayor crecimiento: +17.9% en 2023 y +13.5% proyectado para 2024.</p>
+        <div class="source">Fuente: Mordor Intelligence El Salvador Construction Market 2025 · CASALCO · BCR</div>
+      </div>
+    </div>
+    <div>
+      <ul class="problem-points">
+        <li class="fade-in" style="transition-delay:.05s">
+          <div class="icon">💸</div>
+          <div>
+            <strong>Pago por adelantado = riesgo total</strong>
+            <p>El modelo habitual exige un adelanto del 50% al contratista antes de arrancar. Sin garantía, sin contrato, sin escape si el trabajo queda incompleto.</p>
+          </div>
+        </li>
+        <li class="fade-in" style="transition-delay:.1s">
+          <div class="icon">🔎</div>
+          <div>
+            <strong>Cero verificación de identidad</strong>
+            <p>Cualquiera puede presentarse como "maestro de obra". No hay DUI verificado, no hay historial de proyectos, no hay referencias comprobables.</p>
+          </div>
+        </li>
+        <li class="fade-in" style="transition-delay:.15s">
+          <div class="icon">🌍</div>
+          <div>
+            <strong>La diáspora financia a ciegas</strong>
+            <p>Más de 2 millones de salvadoreños en EE.UU. envían dinero para construir en casa — sin visibilidad de cómo se usa. Las remesas financian obras que muchas veces quedan a medias.</p>
+          </div>
+        </li>
+        <li class="fade-in" style="transition-delay:.2s">
+          <div class="icon">🏠</div>
+          <div>
+            <strong>Vivienda estandarizada, fraude no</strong>
+            <p>Colonias como Ciudad Marsella 2 tienen proyectos idénticos y costos predecibles. Sin embargo, las cotizaciones varían el doble entre contratistas. La opacidad es la herramienta del fraude.</p>
+          </div>
+        </li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- MODELO UBER -->
+<section id="modelo">
+  <div class="section-eyebrow fade-in">El Modelo</div>
+  <h2 class="section-title fade-in">Como Uber, <br>no como contratista.</h2>
+  <div class="uber-grid fade-in">
+    <div class="uber-card yes">
+      <div class="card-head">
+        <div class="badge">✓ Maestro ES</div>
+      </div>
+      <ul>
+        <li>Directorio de contratistas verificados por DUI</li>
+        <li>Fideicomiso: el pago queda retenido hasta acuerdo</li>
+        <li>Motor de reputación con reseñas públicas por proyecto</li>
+        <li>Canal de pago seguro para la diáspora en EE.UU.</li>
+        <li>Seguro de construcción opcional (Multiriesgos S.A.)</li>
+        <li>Suspensión automática si calificación baja de 4.0★</li>
+      </ul>
+    </div>
+    <div class="uber-card no">
+      <div class="card-head">
+        <div class="badge">✗ Maestro NO ES</div>
+      </div>
+      <ul>
+        <li>Empresa constructora o empleador de albañiles</li>
+        <li>Supervisor de obra o inspector de calidad</li>
+        <li>Gestor de materiales ni integración con ferreterías</li>
+        <li>Intermediario en negociaciones técnicas entre partes</li>
+        <li>Responsable del resultado final de la construcción</li>
+        <li>Asegurador (solo distribuye, no suscribe)</li>
+      </ul>
+    </div>
+  </div>
+  <p class="fade-in" style="text-align:center;font-size:14px;color:var(--muted);max-width:600px;margin:0 auto;">Como Uber no repara los autos de sus conductores y Airbnb no limpia los apartamentos de sus anfitriones — Maestro no gestiona obras. El trato técnico y comercial entre propietario y contratista es completamente directo.</p>
+</section>
+
+<!-- FLUJO -->
+<div class="flow-bg section-full" id="flujo">
+  <div class="flow-inner">
+    <div class="section-eyebrow">Flujo del Servicio</div>
+    <h2 class="section-title">Cómo funciona, <br>paso a paso.</h2>
+
+    <div class="flow-cols">
+      <div class="flow-col-head blue">Propietario</div>
+      <div class="flow-col-head purple">Maestro · Plataforma</div>
+      <div class="flow-col-head teal">Contratista</div>
+    </div>
+
+    <div class="flow-steps">
+      <!-- Row 1 -->
+      <div class="flow-step blue">
+        <div class="step-num">Paso 1</div>
+        <div class="step-title">Publica el proyecto</div>
+        <div class="step-sub">Describe obra, zona y presupuesto estimado</div>
+      </div>
+      <div class="flow-step purple">
+        <div class="step-num">Acción plataforma</div>
+        <div class="step-title">Publica y distribuye</div>
+        <div class="step-sub">Notifica a contratistas verificados de la zona</div>
+      </div>
+      <div class="flow-step teal">
+        <div class="step-num">Paso 2</div>
+        <div class="step-title">Envía cotización</div>
+        <div class="step-sub">Solo contratistas con DUI verificado pueden postular</div>
+      </div>
+
+      <!-- Row 2 -->
+      <div class="flow-step blue">
+        <div class="step-num">Paso 3</div>
+        <div class="step-title">Revisa perfiles y elige</div>
+        <div class="step-sub">Ve calificaciones, historial y DUI verificado</div>
+      </div>
+      <div class="flow-step purple">
+        <div class="step-num">Acción plataforma</div>
+        <div class="step-title">Presenta opciones</div>
+        <div class="step-sub">Muestra perfiles verificados con historial público</div>
+      </div>
+      <div class="flow-step empty"></div>
+
+      <!-- Row 3 — separator -->
+      <div class="flow-step blue" style="background:rgba(255,255,255,0.02);border-style:dashed;">
+        <div class="step-num" style="color:rgba(245,242,234,0.3)">Trato directo</div>
+        <div class="step-title" style="color:rgba(245,242,234,0.5)">Acuerdan precio e hitos</div>
+        <div class="step-sub">Maestro no interviene en este acuerdo</div>
+      </div>
+      <div class="flow-step empty" style="background:rgba(255,255,255,0.02);border-style:dashed;display:flex;align-items:center;justify-content:center;">
+        <div class="step-sub" style="text-align:center;color:rgba(245,242,234,0.25);">— Zona de acuerdo libre entre partes —</div>
+      </div>
+      <div class="flow-step teal" style="background:rgba(255,255,255,0.02);border-style:dashed;">
+        <div class="step-num" style="color:rgba(245,242,234,0.3)">Trato directo</div>
+        <div class="step-title" style="color:rgba(245,242,234,0.5)">Acuerdan condiciones</div>
+        <div class="step-sub">Plazo, materiales, forma de pago parcial</div>
+      </div>
+
+      <!-- Row 4 -->
+      <div class="flow-step blue">
+        <div class="step-num">Paso 4</div>
+        <div class="step-title">Deposita el pago</div>
+        <div class="step-sub">Via Stripe / PayPal — también desde EE.UU.</div>
+      </div>
+      <div class="flow-step purple">
+        <div class="step-num">Fideicomiso activo</div>
+        <div class="step-title">Retiene los fondos</div>
+        <div class="step-sub">El contratista aún no accede al dinero</div>
+      </div>
+      <div class="flow-step teal">
+        <div class="step-num">Paso 5</div>
+        <div class="step-title">Ejecuta la obra</div>
+        <div class="step-sub">Trato 100% directo con el propietario</div>
+      </div>
+
+      <!-- Row 5 -->
+      <div class="flow-step blue">
+        <div class="step-num">Paso 6</div>
+        <div class="step-title">Confirma obra lista</div>
+        <div class="step-sub">Aprueba el trabajo — activa liberación</div>
+      </div>
+      <div class="flow-step purple">
+        <div class="step-num">Acción plataforma</div>
+        <div class="step-title">Libera el pago</div>
+        <div class="step-sub">Transfiere al contratista al recibir confirmación</div>
+      </div>
+      <div class="flow-step teal">
+        <div class="step-num">Resultado</div>
+        <div class="step-title">Recibe pago garantizado</div>
+        <div class="step-sub">Depósito confirmado a su cuenta o wallet</div>
+      </div>
+
+      <!-- Row 6 -->
+      <div class="flow-step blue">
+        <div class="step-num">Paso 7</div>
+        <div class="step-title">Califica al contratista</div>
+        <div class="step-sub">Reseña pública con estrellas en el perfil</div>
+      </div>
+      <div class="flow-step purple">
+        <div class="step-num">Resultado plataforma</div>
+        <div class="step-title">Actualiza reputación</div>
+        <div class="step-sub">Perfil público actualizado · comisión cobrada</div>
+      </div>
+      <div class="flow-step teal">
+        <div class="step-num">Resultado</div>
+        <div class="step-title">Reputación ganada</div>
+        <div class="step-sub">Más visibilidad · mejores clientes futuros</div>
+      </div>
+    </div>
+
+    <div class="flow-legend">
+      <div class="flow-legend-item"><div class="flow-legend-dot" style="background:#60a5fa"></div>Propietario (o remitente diáspora EE.UU.)</div>
+      <div class="flow-legend-item"><div class="flow-legend-dot" style="background:#c084fc"></div>Maestro — capa de confianza y pagos</div>
+      <div class="flow-legend-item"><div class="flow-legend-dot" style="background:#34d399"></div>Contratista verificado</div>
+      <div class="flow-legend-item"><div class="flow-legend-dot" style="background:rgba(245,242,234,0.2)"></div>Zona de acuerdo libre — Maestro no interviene</div>
+    </div>
+  </div>
+</div>
+
+<!-- ANTI-DESINTERMEDIACION -->
+<section id="defensa">
+  <div class="section-eyebrow fade-in">Riesgo Crítico</div>
+  <h2 class="section-title fade-in">¿Y si se ponen <br>de acuerdo afuera?</h2>
+  <p class="fade-in" style="font-size:16px;color:var(--muted);max-width:680px;margin-bottom:48px;line-height:1.7;">La desintermediación — cuando las partes acuerdan operar fuera de la plataforma tras conocerse en ella — puede destruir hasta el 90% de un marketplace (estudio ZBJ, 2018). Maestro la resuelve con 5 capas de valor que solo existen dentro de la plataforma.</p>
+  <div class="defense-grid">
+    <div class="defense-card fade-in">
+      <div class="card-num">01</div>
+      <h3>El dinero ya está en fideicomiso</h3>
+      <p>El propietario ya depositó. El contratista sabe que el dinero existe y está disponible — salirse implica perder ese pago garantizado. No hay efectivo informal que compita con esa certeza.</p>
+      <span class="tag">Ancla financiera</span>
+    </div>
+    <div class="defense-card fade-in" style="transition-delay:.08s">
+      <div class="card-num">02</div>
+      <h3>Contacto oculto hasta el pago</h3>
+      <p>Como Airbnb, Maestro no revela teléfono ni dirección exacta del contratista hasta que el pago entra al fideicomiso. Elimina el canal más común de fuga: "mándame WhatsApp directo."</p>
+      <span class="tag">Fricción de contacto</span>
+    </div>
+    <div class="defense-card fade-in" style="transition-delay:.16s">
+      <div class="card-num">03</div>
+      <h3>Reputación no transferible</h3>
+      <p>Las calificaciones y reseñas solo existen dentro de Maestro. Un contratista que opera fuera no construye historial. Sin historial, no consigue nuevos clientes en la plataforma.</p>
+      <span class="tag">Capital de reputación</span>
+    </div>
+    <div class="defense-card fade-in" style="transition-delay:.24s">
+      <div class="card-num">04</div>
+      <h3>Seguro inválido fuera de app</h3>
+      <p>El seguro de Multiriesgos solo está activo para proyectos procesados dentro de Maestro. Perder cobertura de $35–$100 en una obra de $5,500 es un costo real que disuade el off-platform.</p>
+      <span class="tag">Cobertura condicionada</span>
+    </div>
+    <div class="defense-card fade-in" style="transition-delay:.32s">
+      <div class="card-num">05</div>
+      <h3>Fee bajo = riesgo mucho mayor</h3>
+      <p>El 13% combinado es el precio de la confianza. Es racional pagarlo cuando el costo alternativo es el 50% de fracaso del mercado informal. La investigación de Airbnb confirma: cuando el fee es menor al riesgo percibido de salirse, la desintermediación cae drásticamente.</p>
+      <span class="tag">Precio justo</span>
+    </div>
+    <div class="defense-card fade-in" style="transition-delay:.4s;background:#fef4f2;border-color:#f9c0b0;">
+      <div class="card-num" style="color:#fde8e0;">⚠</div>
+      <h3 style="color:var(--accent)">Advertencia en onboarding</h3>
+      <p>Al primer contacto entre ambas partes, la plataforma envía un mensaje claro: "Operar fuera de Maestro anula tu garantía, tu seguro y tu reputación pública." La comunicación proactiva del riesgo reduce la desintermediación significativamente (Harvard Business Review, 2023).</p>
+      <span class="tag" style="background:#fef4f2;color:var(--accent)">Disuasión activa</span>
+    </div>
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- CASOS ANALOGOS -->
+<section id="casos">
+  <div class="section-eyebrow fade-in">Casos de Éxito</div>
+  <h2 class="section-title fade-in">El modelo funciona. <br>Hay prueba en LATAM.</h2>
+  <div class="cases-grid">
+    <div class="case-card fade-in">
+      <div class="case-logo">GN</div>
+      <div>
+        <div class="case-market">Brasil → LATAM</div>
+        <div class="case-name">GetNinjas</div>
+        <div class="case-desc">Surgió exactamente igual que Maestro: conectando albañiles, plomeros y carpinteros en colonias populares de São Paulo. Empezó con $700K en Seed. Hoy cotiza en bolsa con capitalización de ~$230M y más de 1 millón de proveedores.</div>
+        <span class="case-pill">Seed $700K → IPO $230M cap.</span>
+      </div>
+    </div>
+    <div class="case-card fade-in" style="transition-delay:.08s">
+      <div class="case-logo">Ha</div>
+      <div>
+        <div class="case-market">España · México · Brasil · Chile</div>
+        <div class="case-name">Habitissimo</div>
+        <div class="case-desc">Marketplace de remodelación del hogar que conecta propietarios con contratistas verificados y calificados. Opera en 6 países incluyendo México y Brasil. Adquirida por REFORMA Group.</div>
+        <span class="case-pill">Seed $880K → Adquisición</span>
+      </div>
+    </div>
+    <div class="case-card fade-in" style="transition-delay:.16s">
+      <div class="case-logo">Wk</div>
+      <div>
+        <div class="case-market">Argentina → LATAM regional</div>
+        <div class="case-name">Workana</div>
+        <div class="case-desc">Marketplace de servicios en LATAM. Demostró que un modelo de confianza + escrow en la región puede conectar más de 1 millón de proyectos. Levantó $9.5M en Serie C con SEEK como inversor.</div>
+        <span class="case-pill">Serie C — $9.5M</span>
+      </div>
+    </div>
+    <div class="case-card fade-in" style="transition-delay:.24s">
+      <div class="case-logo">TR</div>
+      <div>
+        <div class="case-market">EE.UU. — Referente global</div>
+        <div class="case-name">TaskRabbit</div>
+        <div class="case-desc">Mismo modelo de matching + escrow para tareas del hogar. Confirmó que el segmento tiene valor de adquisición estratégico para grandes actores. Adquirida por IKEA en 2017.</div>
+        <span class="case-pill">Adquirida por IKEA</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FINANZAS -->
+<div class="fin-bg section-full" id="finanzas">
+  <div class="fin-inner" style="max-width:1200px;margin:0 auto;">
+    <div class="section-eyebrow fade-in">Finanzas</div>
+    <h2 class="section-title fade-in">Los números <br>hablan claro.</h2>
+
+    <table class="revenue-table fade-in">
+      <thead>
+        <tr>
+          <th>Escenario</th>
+          <th>Proyectos / año</th>
+          <th>Fee plataforma</th>
+          <th>Seguro (20% conv.)</th>
+          <th>Ingreso total est.</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="esc">MVP — 1 municipio</td>
+          <td>100</td>
+          <td>$71,500</td>
+          <td>$8,000</td>
+          <td class="total">~$79,500</td>
+        </tr>
+        <tr>
+          <td class="esc">Año 2 — 3 municipios</td>
+          <td>350</td>
+          <td>$250,250</td>
+          <td>$28,000</td>
+          <td class="total highlight">~$278,000</td>
+        </tr>
+        <tr>
+          <td class="esc">Año 3 — Nacional</td>
+          <td>800</td>
+          <td>$572,000</td>
+          <td>$64,000</td>
+          <td class="total highlight">~$636,000</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="fin-unit-grid">
+      <div>
+        <div class="unit-card fade-in">
+          <div class="unit-card-head">Proyecto típico — $5,500 <span>Ciudad Marsella 2 / Ampliación</span></div>
+          <div class="unit-row"><span class="label">Materiales (cemento, acero, blocks, techo)</span><span class="amount">$3,000</span></div>
+          <div class="unit-row"><span class="label">Mano de obra (maestro + 2 ayudantes, 3–4 sem.)</span><span class="amount">$1,800</span></div>
+          <div class="unit-row"><span class="label">Margen del contratista</span><span class="amount">$700</span></div>
+          <div class="unit-row platform"><span class="label">Comisión Maestro (5% propietario + 8% contratista)</span><span class="amount">$715</span></div>
+        </div>
+      </div>
+      <div>
+        <div style="margin-bottom:20px;">
+          <p class="section-eyebrow fade-in" style="margin-bottom:12px;">Valoración del negocio</p>
+          <div class="val-grid fade-in">
+            <div class="val-card cons">
+              <div class="v-label">Conservador</div>
+              <div class="v-num">$800K</div>
+              <div class="v-sub">Año 1–2 / 3x ingresos</div>
+            </div>
+            <div class="val-card cent">
+              <div class="v-label">Central</div>
+              <div class="v-num">$2.8M</div>
+              <div class="v-sub">DCF 3 años (25% descuento)</div>
+            </div>
+            <div class="val-card opt">
+              <div class="v-label">Optimista</div>
+              <div class="v-num">$5M+</div>
+              <div class="v-sub">Expansión regional Año 3</div>
+            </div>
+          </div>
+        </div>
+        <div class="unit-card fade-in">
+          <div class="unit-card-head">Ronda Seed sugerida</div>
+          <div class="unit-row"><span class="label">Monto recomendado</span><span class="amount">$150K – $300K</span></div>
+          <div class="unit-row"><span class="label">Dilución estimada</span><span class="amount">15 – 20%</span></div>
+          <div class="unit-row"><span class="label">Uso principal</span><span class="amount">Desarrollo MVP + primeros 100 proyectos</span></div>
+          <div class="unit-row platform"><span class="label">Equity fundador post-seed</span><span class="amount">80 – 85%</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- STRENGTHS & RISKS -->
+<section>
+  <div class="section-eyebrow fade-in">Análisis</div>
+  <h2 class="section-title fade-in">Fortalezas <br>&amp; Riesgos.</h2>
+  <div class="sw-grid">
+    <div class="sw-col str">
+      <h3>Fortalezas <span class="sw-badge">6 ventajas clave</span></h3>
+      <div class="sw-item fade-in">
+        <div class="item-title">Problema real y documentado</div>
+        <div class="item-body">Tasa de fracaso ~50% verificada en campo. No es una solución buscando un problema — el problema busca una solución.</div>
+      </div>
+      <div class="sw-item fade-in" style="transition-delay:.06s">
+        <div class="item-title">Ventaja de primer entrante</div>
+        <div class="item-body">El sector de construcción tradicional en El Salvador es profundamente resistente a la tecnología. Un entrante creíble fija el estándar del mercado.</div>
+      </div>
+      <div class="sw-item fade-in" style="transition-delay:.12s">
+        <div class="item-title">Motor de remesas ($8.2B anuales)</div>
+        <div class="item-body">La diáspora en EE.UU. es digitalmente hábil, tiene ingresos en dólares y necesita urgentemente transparencia. Es el segmento de mayor valor y menor costo de adquisición.</div>
+      </div>
+      <div class="sw-item fade-in" style="transition-delay:.18s">
+        <div class="item-title">Modelo 100% asset-light</div>
+        <div class="item-body">Sin inventario, sin empleados de campo, sin riesgo de obra. El margen operativo proyectado es 65%+ — comparable a los mejores marketplaces del mundo.</div>
+      </div>
+      <div class="sw-item fade-in" style="transition-delay:.24s">
+        <div class="item-title">Proyectos estandarizados</div>
+        <div class="item-body">Las colonias en serie hacen los costos predecibles y el fraude detectable. Una ampliación en Ciudad Marsella 2 tiene el mismo blueprint que sus 4,000 vecinas.</div>
+      </div>
+      <div class="sw-item fade-in" style="transition-delay:.3s">
+        <div class="item-title">Upsell de seguro de alta conversión</div>
+        <div class="item-body">Alianza con Multiriesgos S.A. de C.V.: margen alto, sin riesgo de suscripción, y refuerza el valor on-platform (el seguro desaparece si salen de la app).</div>
+      </div>
+    </div>
+    <div class="sw-col risk">
+      <h3>Riesgos <span class="sw-badge">4 desafíos a gestionar</span></h3>
+      <div class="sw-item fade-in">
+        <div class="item-title">Desintermediación</div>
+        <div class="item-body">Tras el primer contacto, las partes pueden acordar operar fuera de la plataforma para evitar la comisión.</div>
+        <div class="item-mit">Mitigación: 5 capas de valor solo disponibles on-platform — ver sección anterior.</div>
+      </div>
+      <div class="sw-item fade-in" style="transition-delay:.06s">
+        <div class="item-title">Baja alfabetización digital del contratista</div>
+        <div class="item-body">Muchos albañiles no tienen smartphone o no están cómodos con apps complejas.</div>
+        <div class="item-mit">Mitigación: Flujo WhatsApp Business API para reportes de hitos; pagos via Chivo Wallet o agentes de Banco Agrícola.</div>
+      </div>
+      <div class="sw-item fade-in" style="transition-delay:.12s">
+        <div class="item-title">Exposición a responsabilidad legal</div>
+        <div class="item-body">Si una estructura falla o hay un accidente, la plataforma podría verse arrastrada en disputas.</div>
+        <div class="item-mit">Mitigación: T&amp;C claros posicionan a Maestro exclusivamente como matching y fideicomiso — no como contratista ni supervisor.</div>
+      </div>
+      <div class="sw-item fade-in" style="transition-delay:.18s">
+        <div class="item-title">Densidad inicial (cold start)</div>
+        <div class="item-body">Sin contratistas verificados no hay propietarios; sin propietarios no hay contratistas. El huevo y la gallina.</div>
+        <div class="item-mit">Mitigación: Lanzar con oferta primero — incorporar 15–20 contratistas verificados antes de abrir el marketplace a propietarios. Socio de ventas con 15% de comisión en referidos desde el mes 1.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- LANZAMIENTO -->
+<section id="lanzamiento">
+  <div class="section-eyebrow fade-in">Plan de Acción</div>
+  <h2 class="section-title fade-in">Estructura de <br>lanzamiento.</h2>
+  <div class="launch-grid">
+    <div>
+      <p style="font-size:15px;color:var(--muted);margin-bottom:28px;line-height:1.7;">Secuencia recomendada para ir de idea a primeros 100 proyectos en un municipio piloto, sin inversión de riesgo significativa.</p>
+      <div class="launch-steps">
+        <div class="launch-step fade-in">
+          <div class="launch-step-num">1</div>
+          <div>
+            <strong>Constituir LLC en EE.UU.</strong>
+            <p>Delaware o Wyoming. Mantiene IP, procesa pagos internacionales, facilita diáspora como clientes pagadores — sin complejidad regulatoria de intermediación financiera salvadoreña.</p>
+          </div>
+        </div>
+        <div class="launch-step fade-in" style="transition-delay:.06s">
+          <div class="launch-step-num">2</div>
+          <div>
+            <strong>Onboarding de oferta primero</strong>
+            <p>Incorporar 15–20 contratistas verificados en la zona piloto antes de abrir a propietarios. La oferta de calidad es el producto central.</p>
+          </div>
+        </div>
+        <div class="launch-step fade-in" style="transition-delay:.12s">
+          <div class="launch-step-num">3</div>
+          <div>
+            <strong>Zona piloto: Ciudad Marsella / Lourdes Colón</strong>
+            <p>Construir densidad en un municipio primero. La estandarización de proyectos en estas zonas permite validar el modelo con costos mínimos.</p>
+          </div>
+        </div>
+        <div class="launch-step fade-in" style="transition-delay:.18s">
+          <div class="launch-step-num">4</div>
+          <div>
+            <strong>Canal diáspora: Facebook / WhatsApp EE.UU.</strong>
+            <p>Comunidades salvadoreñas en Los Ángeles, Houston y Washington D.C. son el canal de adquisición de mayor valor. Referidos + grupos de Facebook en español.</p>
+          </div>
+        </div>
+        <div class="launch-step fade-in" style="transition-delay:.24s">
+          <div class="launch-step-num">5</div>
+          <div>
+            <strong>Activar socio de ventas (Esteban)</strong>
+            <p>Modelo 15% de comisión en referidos de contratistas verificados. Activable desde mes 1 sin costo fijo.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div>
+      <p style="font-family:var(--font-display);font-size:15px;font-weight:600;margin-bottom:16px;color:var(--ink);">Procesamiento de pagos — Fase prototipo</p>
+      <div class="payment-table">
+        <div class="payment-row best fade-in">
+          <div class="p-name">Stripe Connect</div>
+          <span class="p-rec">Recomendado V1</span>
+          <p>Fideicomiso nativo via API. Profesional, escalable, con dashboard para ambas partes. Requiere LLC en EE.UU. (ya recomendado arriba).</p>
+        </div>
+        <div class="payment-row good fade-in" style="transition-delay:.08s">
+          <div class="p-name">PayPal Business</div>
+          <span class="p-rec">Ideal prototipo</span>
+          <p>Acceso inmediato. Compatible con remitentes en EE.UU. Costo: 2.9% + $0.30. Fideicomiso manual via retenciones. Perfecta para validar el modelo antes de invertir en integración.</p>
+        </div>
+        <div class="payment-row ok fade-in" style="transition-delay:.16s">
+          <div class="p-name">Payoneer</div>
+          <span class="p-rec">Desembolso</span>
+          <p>Útil como riel de pagos de salida a contratistas en El Salvador. No recomendado como checkout principal orientado al consumidor.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-inner">
+    <div class="footer-top">
+      <div>
+        <div class="footer-logo">MAESTRO<span>.</span></div>
+        <div class="footer-tagline">La capa de confianza y pagos para la construcción residencial en El Salvador.</div>
+      </div>
+      <div class="footer-verdict">
+        <div class="v-title">Veredicto final</div>
+        <div class="v-text">El problema está documentado con datos reales. El motor de crecimiento (remesas en récord histórico) es verificable. Los casos análogos demuestran que el modelo escala en LATAM. Y el modelo Uber — <strong>ser la capa de confianza y pagos, no una empresa constructora</strong> — mantiene la responsabilidad legal manejable mientras entrega valor genuino.</div>
+      </div>
+    </div>
+    <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:48px;flex-wrap:wrap;">
+      <div style="background:rgba(255,255,255,0.05);border-radius:12px;padding:20px;border:1px solid rgba(255,255,255,0.08);">
+        <div style="font-family:var(--font-display);font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:rgba(245,242,234,.4);margin-bottom:8px;">Meta Año 1</div>
+        <div style="font-family:var(--font-display);font-size:28px;font-weight:800;letter-spacing:-1.5px;color:#60a5fa;">100</div>
+        <div style="font-size:12px;color:rgba(245,242,234,.5);">proyectos · 1 municipio</div>
+      </div>
+      <div style="background:rgba(255,255,255,0.05);border-radius:12px;padding:20px;border:1px solid rgba(255,255,255,0.08);">
+        <div style="font-family:var(--font-display);font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:rgba(245,242,234,.4);margin-bottom:8px;">Ingreso proyectado</div>
+        <div style="font-family:var(--font-display);font-size:28px;font-weight:800;letter-spacing:-1.5px;color:#34d399;">$79.5K</div>
+        <div style="font-size:12px;color:rgba(245,242,234,.5);">comisiones + seguro</div>
+      </div>
+      <div style="background:rgba(255,255,255,0.05);border-radius:12px;padding:20px;border:1px solid rgba(255,255,255,0.08);">
+        <div style="font-family:var(--font-display);font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:rgba(245,242,234,.4);margin-bottom:8px;">Valoración central</div>
+        <div style="font-family:var(--font-display);font-size:28px;font-weight:800;letter-spacing:-1.5px;color:#fbbf24;">$2.8M</div>
+        <div style="font-size:12px;color:rgba(245,242,234,.5);">DCF 3 años · 25% descuento</div>
+      </div>
+      <div style="background:rgba(255,255,255,0.05);border-radius:12px;padding:20px;border:1px solid rgba(255,255,255,0.08);">
+        <div style="font-family:var(--font-display);font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:rgba(245,242,234,.4);margin-bottom:8px;">Acción</div>
+        <div style="font-family:var(--font-display);font-size:22px;font-weight:800;letter-spacing:-1px;color:#f97316;">MVP Ahora</div>
+        <div style="font-size:12px;color:rgba(245,242,234,.5);">LLC + Stripe / PayPal</div>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>Maestro App · Brief de Viabilidad v2.0 · Junio 2026</span>
+      <span>Datos: BCR El Salvador · Banco Mundial · Mordor Intelligence · TechCrunch · Tracxn</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.classList.add('visible');
+        observer.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+
+  document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+
+  document.querySelector('.hero').classList.add('visible');
+</script>
+</body>
+</html>
